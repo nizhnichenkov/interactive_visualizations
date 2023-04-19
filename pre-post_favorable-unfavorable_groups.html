@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Embedding Vega-Lite</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.2"></script>
+</head>
+<body>
+
+
+<table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+        <td style="width: 200px; vertical-align: top;"><strong>Interactive dashboard</strong></td>
+    </tr>
+
+    <tr>
+        <td style="vertical-align: top;"><strong>Experiment description:</strong></td>
+        <td style="vertical-align: top;">
+            <p>The goal of this task is to create an interactive dashboard</p>
+         
+
+        </td>
+    </tr>
+    
+    </tbody>
+</table>
+<hr />
+
+<div id="vis1"></div>
+
+<script type="text/javascript">
+var yourVlSpec = {
+
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {"url": "https://raw.githubusercontent.com/nizhnichenkov/interactive_visualizations/main/x_before_favorable.csv",},
+
+  "title": {"text": "Initial favorable group", "anchor": "middle", "fontSize": 28},
+
+    "hconcat": [
+    {
+        "transform": [
+                            {"filter": {"param": "race_selection"}},
+                            {"filter": {"param": "gender_selection"}},
+                            {"filter": {"param": "age_selection"}},
+                            {"filter": {"param": "work_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                        ],
+        "mark": "circle",
+        "width": 500,
+        "height": 500,
+        "params": [
+            {
+                "name": "brush",
+                "select": {"type": "interval", "resolve": "global"}
+            },
+            ],
+            "encoding": {
+                "x": {"field": "x", "type": "quantitative"},
+                "y": {"field": "y", "type": "quantitative"},
+                "tooltip": [
+        {"title":"Race", "field": "race", "type": "nominal"},
+        {"title":"Gender", "field": "gender", "type": "nominal"},
+        {"title":"Age Group", "field": "age_group", "type": "nominal"},
+        {"title":"Workclass", "field": "workclass", "type": "nominal"},
+        {"title":"Education Years", "field": "education_years", "type": "nominal"},
+        {"title":"Occupation", "field": "occupation", "type": "nominal"},
+    
+    
+    ],
+    "color": {
+                                "condition": {
+                                  "param": "brush",
+                                  "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]}
+                                },
+                                "value": "lightgrey"
+                            },
+"config": {
+    "tick": {
+      "thickness": 2,
+      "bandSize": 50
+    }
+  }
+
+
+
+
+
+            }
+
+
+
+
+
+
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}},
+                        ],
+                        "params": [
+                            {
+                                "name": "race_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["race"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "race",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "race",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "race"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "race_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+
+
+
+
+
+
+
+    },
+
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "gender_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["gender"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "gender",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "gender",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "gender"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "gender_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "age_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["age_group"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "age_group",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "age_group",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Age Group"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "age_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "work_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["workclass"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "workclass",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "workclass",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Workclass"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "work_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "edu_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["education_years"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "education_years",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "education_years",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "education years"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "edu_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "occ_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["occupation"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "occupation",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "occupation",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "occupation"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "occ_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    }
+
+
+
+
+
+
+    ]
+  
+};
+vegaEmbed('#vis1', yourVlSpec);
+</script>
+      <hr />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="vis2"></div>
+
+<script type="text/javascript">
+var yourVlSpec = {
+
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {"url": "https://raw.githubusercontent.com/nizhnichenkov/interactive_visualizations/main/x_after_favorable.csv",},
+
+  "title": {"text": "Post favorable group", "anchor": "middle", "fontSize": 28},
+
+
+    "hconcat": [
+    {
+        "transform": [
+                            {"filter": {"param": "race_selection"}},
+                            {"filter": {"param": "gender_selection"}},
+                            {"filter": {"param": "age_selection"}},
+                            {"filter": {"param": "work_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                        ],
+        "mark": "circle",
+        "width": 500,
+        "height": 500,
+        "params": [
+            {
+                "name": "brush",
+                "select": {"type": "interval", "resolve": "global"}
+            },
+            ],
+            "encoding": {
+                "x": {"field": "x", "type": "quantitative"},
+                "y": {"field": "y", "type": "quantitative"},
+                "tooltip": [
+        {"title":"Race", "field": "race", "type": "nominal"},
+        {"title":"Gender", "field": "gender", "type": "nominal"},
+        {"title":"Age Group", "field": "age_group", "type": "nominal"},
+        {"title":"Workclass", "field": "workclass", "type": "nominal"},
+        {"title":"Education Years", "field": "education_years", "type": "nominal"},
+        {"title":"Occupation", "field": "occupation", "type": "nominal"},
+    
+    
+    ],
+    "color": {
+                                "condition": {
+                                  "param": "brush",
+                                  "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]}
+                                },
+                                "value": "lightgrey"
+                            },
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}},
+                        ],
+                        "params": [
+                            {
+                                "name": "race_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["race"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "race",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "race",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "race"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "race_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+
+
+
+
+
+
+
+    },
+
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "gender_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["gender"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "gender",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "gender",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "gender"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "gender_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "age_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["age_group"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "age_group",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "age_group",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Age Group"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "age_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "work_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["workclass"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "workclass",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "workclass",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Workclass"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "work_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "edu_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["education_years"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "education_years",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "education_years",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "education years"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "edu_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "occ_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["occupation"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "occupation",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "occupation",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "occupation"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "occ_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    }
+
+
+
+
+
+
+    ]
+  
+};
+vegaEmbed('#vis2', yourVlSpec);
+</script>
+<hr />
+
+
+
+<div id="vis3"></div>
+
+<script type="text/javascript">
+var yourVlSpec = {
+
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {"url": "https://raw.githubusercontent.com/nizhnichenkov/interactive_visualizations/main/x_before_unfavorable.csv",},
+  "title": {"text": "Initial unfavorable group", "anchor": "middle", "fontSize": 28},
+
+
+
+    "hconcat": [
+    {
+        "transform": [
+                            {"filter": {"param": "race_selection"}},
+                            {"filter": {"param": "gender_selection"}},
+                            {"filter": {"param": "age_selection"}},
+                            {"filter": {"param": "work_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                        ],
+        "mark": "circle",
+        "width": 500,
+        "height": 500,
+        "params": [
+            {
+                "name": "brush",
+                "select": {"type": "interval", "resolve": "global"}
+            },
+            ],
+            "encoding": {
+                "x": {"field": "x", "type": "quantitative"},
+                "y": {"field": "y", "type": "quantitative"},
+                "tooltip": [
+        {"title":"Race", "field": "race", "type": "nominal"},
+        {"title":"Gender", "field": "gender", "type": "nominal"},
+        {"title":"Age Group", "field": "age_group", "type": "nominal"},
+        {"title":"Workclass", "field": "workclass", "type": "nominal"},
+        {"title":"Education Years", "field": "education_years", "type": "nominal"},
+        {"title":"Occupation", "field": "occupation", "type": "nominal"},
+    
+    
+    ],
+    "color": {
+                                "condition": {
+                                  "param": "brush",
+                                  "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]}
+                                },
+                                "value": "lightgrey"
+                            },
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}},
+                        ],
+                        "params": [
+                            {
+                                "name": "race_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["race"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "race",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "race",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "race"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "race_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+
+
+
+
+
+
+
+    },
+
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "gender_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["gender"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "gender",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "gender",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "gender"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "gender_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "age_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["age_group"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "age_group",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "age_group",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Age Group"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "age_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "work_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["workclass"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "workclass",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "workclass",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Workclass"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "work_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "edu_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["education_years"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "education_years",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "education_years",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "education years"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "edu_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "occ_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["occupation"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "occupation",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "occupation",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "occupation"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "occ_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    }
+
+
+
+
+
+
+    ]
+  
+};
+vegaEmbed('#vis3', yourVlSpec);
+</script>
+<hr />
+
+
+
+
+<div id="vis4"></div>
+
+<script type="text/javascript">
+var yourVlSpec = {
+
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {"url": "https://raw.githubusercontent.com/nizhnichenkov/interactive_visualizations/main/x_after_unfavorable.csv",},
+  "title": {"text": "Post unfavorable group", "anchor": "middle", "fontSize": 28},
+
+
+
+    "hconcat": [
+    {
+        "transform": [
+                            {"filter": {"param": "race_selection"}},
+                            {"filter": {"param": "gender_selection"}},
+                            {"filter": {"param": "age_selection"}},
+                            {"filter": {"param": "work_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                            {"filter": {"param": "edu_selection"}},
+                        ],
+        "mark": "circle",
+        "width": 500,
+        "height": 500,
+        "params": [
+            {
+                "name": "brush",
+                "select": {"type": "interval", "resolve": "global"}
+            },
+            ],
+            "encoding": {
+                "x": {"field": "x", "type": "quantitative"},
+                "y": {"field": "y", "type": "quantitative"},
+                "tooltip": [
+        {"title":"Race", "field": "race", "type": "nominal"},
+        {"title":"Gender", "field": "gender", "type": "nominal"},
+        {"title":"Age Group", "field": "age_group", "type": "nominal"},
+        {"title":"Workclass", "field": "workclass", "type": "nominal"},
+        {"title":"Education Years", "field": "education_years", "type": "nominal"},
+        {"title":"Occupation", "field": "occupation", "type": "nominal"},
+    
+    
+    ],
+
+
+    "color": {
+                                "condition": {
+                                  "param": "brush",
+                                  "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]}
+                                },
+                                "value": "lightgrey"
+                            },
+
+
+
+
+
+
+            },
+
+
+
+
+
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}},
+                        ],
+                        "params": [
+                            {
+                                "name": "race_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["race"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "race",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "race",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "race"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "race_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+
+
+
+
+
+
+
+    },
+
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "gender_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["gender"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "gender",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "gender",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "gender"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "gender_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "age_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["age_group"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "age_group",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "age_group",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Age Group"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "age_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    
+                                },
+                                "value": "lightgray"
+                            }
+
+                        }
+    },
+
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "work_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["workclass"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "workclass",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "workclass",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "Workclass"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "work_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "edu_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["education_years"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "education_years",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "education_years",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "education years"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "edu_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    },
+
+    {
+        "height": 500,
+                        "transform": [
+                            {"filter": {"param": "brush"}}
+                        ],
+                        "params": [
+                            {
+                                "name": "occ_selection",
+                                "select": {
+                                    "type": "point",
+                                    "toggle": true,
+                                    "fields": ["occupation"]
+                                }
+                            }
+                        ],
+                        "mark": "bar",
+                        "encoding": {
+                            "y": {
+                                "field": "occupation",
+                                "type": "nominal",
+                                "title": null,
+                                "sort": {
+                                    "field": "occupation",
+                                    "op": "count",
+                                    "order": "descending"
+                                }
+                            },
+                            "x": {
+                                "aggregate": "count",
+                                "type": "quantitative",
+                                "axis": {"title": "occupation"}
+                            },
+                            "color": {
+                                "condition": {
+                                    "param": "occ_selection",
+                                    "field": "income_before_onehot",
+                                  "type": "nominal",
+                                  "scale": {"domain": ["0", "1"], "range": ["#8101FA", "#00C7A9"]},
+                                    "legend": null
+                                },
+                                "value": "lightgray"
+                            }
+                        }
+    }
+
+
+
+
+
+
+    ]
+  
+};
+vegaEmbed('#vis4', yourVlSpec);
+</script>
+<hr />
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
